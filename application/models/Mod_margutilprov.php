@@ -44,11 +44,44 @@ class Mod_margutilprov extends CI_Model {
             art.cve_pro+'      '+pro.nom [Proveedor]
             ,sum(total-(descto+desc_cli+d.desc_cond+desc_prom+desc_acum)) [VentaNeta]
             ,cast(SUM(CASE WHEN p.status != 'FAD' THEN (sur*fac_sal)/fac_costo ELSE 0 END) as Float) [UdsVen]
-            ,SUM(CASE WHEN  p.status = 'FAD' THEN (d.total-d.descto - d.desc_cli - d.desc_acum - d.desc_prom - d.desc_cond) ELSE 0 END) [Devoluciones]
-            ,cast( SUM(CASE WHEN  p.status = 'FAD' THEN (sur*fac_sal)/fac_costo ELSE 0 END) as float) [UdsDev]
-            ,SUM(CASE WHEN p.status != 'FAD' THEN (d.total - descto - desc_cli - desc_acum - desc_prom - d.desc_cond) ELSE 0 END) [Venta]
             ,sum(costo*sur) [CostoVta]
             ,(((sum(total-(descto+desc_cli+d.desc_cond+desc_prom+desc_acum))-sum(costo*sur))/ NULLIF(sum(total-(descto+desc_cli+d.desc_cond+desc_prom+desc_acum)), 0))*100) [Margen]
+             from  pedped p
+             , pedfor r
+             , peddet d
+             , invart art
+             , cprprv pro
+            where YEAR(p.fec_fac) = '".$ejercicio."' and MONTH(p.fec_fac) = '".$periodo."'
+            and p.status in ('FAP','FAX','TI','TIF','FAD')
+            and p.cia='MAB'
+            and p.cia=r.cia and p.for_pgo=r.codigo and r.tempo='N' 
+            and p.serie=d.serie and p.num=d.cve and p.par=d.par and d.sur!=0
+            and p.cia = art.cia and d.alm = art.alm and d.cve_art = art.art
+            and art.cve_pro='".$proveedor."'
+            and art.cve_pro = pro.proveedor
+            group by 
+            p.serie,
+            art.cve_pro, pro.nom
+            order by p.serie, art.cve_pro");
+        
+        
+        
+        
+        if($query->result()){
+            return $query->result_array();
+        }
+        else
+        {
+            return false;    
+        }
+    }
+    public function getMargenPorDebsurAnioPasado($proveedor,$ejercicio,$periodo){
+   
+        
+         $query=$this->db->query("select 
+            p.serie [Sucursal],
+            sum(total-(descto+desc_cli+d.desc_cond+desc_prom+desc_acum)) [VentaNeta2]
+            ,cast(SUM(CASE WHEN p.status != 'FAD' THEN (sur*fac_sal)/fac_costo ELSE 0 END) as Float) [UdsVen2]
              from  pedped p
              , pedfor r
              , peddet d

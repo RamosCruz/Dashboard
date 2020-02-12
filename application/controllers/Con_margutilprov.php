@@ -67,6 +67,13 @@ class Con_margutilprov extends CI_Controller {
         $result= $this->Mod_margutilprov->getMargenPorDebsur($proveedor,$ejercicio,$periodo);
         echo json_encode($result);
     }
+    public function MargenPorDebsurAnioPasado(){
+        $proveedor = $this->input->get('proveedor');
+        $periodo = $this->input->get('periodo');
+        $ejercicio = $this->input->get('ejercicio');
+        $result= $this->Mod_margutilprov->getMargenPorDebsurAnioPasado($proveedor,$ejercicio,$periodo);
+        echo json_encode($result);
+    }
     public function valorInvetarioPorProveedor()
     {
         $proveedor = $this->input->get('proveedor');

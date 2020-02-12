@@ -113,7 +113,7 @@ table.dataTable {
       background-color: #b0bed9; }
   table.dataTable tbody th,
   table.dataTable tbody td {
-    padding: 8px 10px; }
+    padding: 2px 2px; }
   table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {
     border-top: 1px solid #dddddd; }
   table.dataTable.row-border tbody tr:first-child th,
@@ -425,59 +425,50 @@ table.dataTable td {
     ?>  
 </body>
 <style>
-html 
-{
+.zoom {
+zoom: 90%;
+}
+html{
   font-size: 11px;
 }
 
-    
+#example thead th{
+    font-size: 10px;
+}    
 #example tbody tr{
     cursor: pointer;
     padding:0px; 
     height:15px;
 }
 #example tbody td{
-    font-size: 12px;
+    font-size: 10px;
     padding:0px; 
     height:15px;
 }
+    
   
     
 
     
-    
-#detalles thead tr{
-    cursor: pointer;
-    padding:0px; 
-    height:15px;
-}
+
 #detalles thead th{
-    font-size: 12px;
-    padding:0px; 
-    height:15px;
-}
-    
+    font-size: 10px;
+    padding: auto; 
+}     
 #detalles tbody tr{
     cursor: pointer;
     padding:0px; 
     height:15px;
+    width:auto;
 }
 #detalles tbody td{
-    font-size: 12px;
+    font-size: 10px;
     padding:0px; 
     height:15px;
+    width:auto;
 }
     
-#detalles tfoot tr{
-    cursor: pointer;
-    padding:0px; 
-    height:15px;
-}
-#detalles tfoot th{
-    font-size: 12px;
-    padding:0px; 
-    height:15px;
-}
+
        
 .dataTables_wrapper .dataTables_length {
 float: right;

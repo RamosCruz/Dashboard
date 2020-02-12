@@ -27,13 +27,13 @@ $(document).ready(function()
     
     $("#consultar").click(function () 
     {
-        $('#ventaNeta0').text(""); 
-        $('#ventaNeta1').text(""); 
-        $('#ventaNeta2').text(""); 
+        $('#ventaNeta0').text("$0"); 
+        $('#ventaNeta1').text("$0"); 
+        $('#ventaNeta2').text("$0"); 
 
-        $('#porcentaje0').text("");  
-        $('#porcentaje1').text(""); 
-        $('#porcentaje2').text(""); 
+        $('#porcentaje0').text("0%");  
+        $('#porcentaje1').text("0%"); 
+        $('#porcentaje2').text("0%"); 
         
         $('#tituloproveedor').text("");
         $("#imagenProv").attr("src","");
@@ -156,6 +156,7 @@ function llenarTabla1(query_result,req)
     tabla = $('#example').DataTable( {
         destroy: true,
         responsive: true,
+        colReorder: true,
         data:query_result,
         columns:
         [
@@ -196,9 +197,10 @@ function llenarTabla1(query_result,req)
                             colvis: "Visibilidad"
                         }
         },
-        scrollY:        "230px",
+        scrollY:        "240px",
         paging:         false,
         select: 'single',
+        autoWidth: true,
         columnDefs: [
             {
                 targets: 2,
@@ -262,13 +264,13 @@ function llenarTabla1(query_result,req)
 
     
     tabla.on( 'select', function ( e, dt, type, indexes ) {
-                $('#ventaNeta0').text("");  
-                $('#ventaNeta1').text(""); 
-                $('#ventaNeta2').text(""); 
+                $('#ventaNeta0').text("$0");  
+                $('#ventaNeta1').text("$0"); 
+                $('#ventaNeta2').text("$0"); 
 
-                $('#porcentaje0').text("");  
-                $('#porcentaje1').text(""); 
-                $('#porcentaje2').text(""); 
+                $('#porcentaje0').text("0%");  
+                $('#porcentaje1').text("0%"); 
+                $('#porcentaje2').text("0%"); 
                 var rowData=null;
                 rowData = tabla.rows( indexes ).data().toArray();
                 var linea = dt["0"][0];
@@ -318,7 +320,8 @@ function getMargenPorSuc(url, req, req_type, nombre_prov)
             }
             else
             { 
-                queryVerValorInventario2(response,req,nombre_prov);
+               
+               MargenPorDebsurAnioPasado(response, req, nombre_prov); 
             }
         },
         error: function (xhr, ajaxOptions, thrownError) 
@@ -343,26 +346,95 @@ function getMargenPorSuc(url, req, req_type, nombre_prov)
     
 }
 
-function llenarTabla2(query_result)
+function MargenPorDebsurAnioPasado(MargenPorDebsur, req, nombre_prov)
 {
-    //console.log(query_result);
+    var aniopasado =parseInt(req.ejercicio)-1;
+    console.log(req.proveedor);
+    console.log(aniopasado);
+    $.ajax
+    ({
+        xhr: function()
+        {
+            var xhr = new window.XMLHttpRequest();
+            xhr.open("GET", getBaseURL()+"con_margutilprov/MargenPorDebsurAnioPasado");
+            xhr.onprogress = function (e) {
+                if (e.lengthComputable) {
+                    //console.log(e.loaded+  " / " + e.total)
+                }
+            }
+            xhr.onloadstart = function (e) {
+                
+                 
+                 
+            }
+            xhr.onloadend = function (e) {
+               
+            }
+            xhr.send();
+            return xhr;
+        },
+        type: 'GET',
+        url: getBaseURL()+"con_margutilprov/MargenPorDebsurAnioPasado",
+        data: { proveedor:req.proveedor,periodo: req.periodo, ejercicio: aniopasado },
+        dataType: "json",
+        success: function(aniopasado)
+        {
+            if(aniopasado==false)
+            {
+                
+                Swal.fire('No hay datos getMargenPorSuc!');
+            }
+            else
+            { 
+               queryVerValorInventario2(aniopasado,MargenPorDebsur,req,nombre_prov);
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) 
+        {
+            Swal.fire
+            ({
+                title: xhr.status+" "+thrownError,
+                icon: "info",
+                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/MargenPorDebsurAnioPasado</p>",
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText:
+                '<i class="fa fa-thumbs-up"></i> Ok',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText:
+                '<i class="fa fa-thumbs-down">Cancelar</i>',
+                cancelButtonAriaLabel: 'Thumbs down'
+            });
+        }
+    });
+    
+}
+
+function llenarTabla2(query_result,periodoyejerciciotabla2)///////////
+{
+    var anioant= parseInt(periodoyejerciciotabla2.ejercicio)-1;
+    $("#ventaProvAnterior").text('Venta '+anioant);
+    $("#unidsProvAnterior").text('UdsVen '+anioant);
+    $("#ventaProvActual").text('Venta '+periodoyejerciciotabla2.ejercicio);
+    $("#unidsProvActual").text('UdsVen '+periodoyejerciciotabla2.ejercicio);
+    
+    
     var events = $('#events');
     
     tabla2 = $('#detalles').DataTable( {
         destroy: true,
-        responsive: true,
         data:query_result,
         columns:
         [
-            {data:"Sucursal"},
-            {data:"VentaNeta"},
-            {data:"UdsVen"},
-            {data:"Devoluciones"},
-            {data:"UdsDev"},
-            {data:"Venta"},
-            {data:"CostoVta"},
-            {data:"Margen"},
-            {data:"DiasInv"}
+            {data:"Sucursal"},//0
+            {data:"VentaNeta2"},//1
+            {data:"VentaNeta"},//2
+            {data:"UdsVen2"},//3
+            {data:"UdsVen"},//4
+            {data:"CostoVta"},//5 no visible
+            {data:"Margen"},//6
+            {data:"DiasInv"}//7
         ],
         language:
         {
@@ -394,61 +466,68 @@ function llenarTabla2(query_result)
                         }
             
         },
-        scrollY:        "200px",
+        scrollY:        "310px",
+        scrollX: true,
         paging:         false,
+        fixedHeader: true,
         searching: false,
         select: 'single',
+        fixedColumns:   {
+            leftColumns: 1
+        },
         columnDefs: 
         [
+            
             { 
-                responsivePriority: 1, targets: 0 
+                targets: 0,
+                width: '5%'
             },
             {
                 targets: 1,
-                render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                width: '5%'
             },
             {
                 targets: 2,
-                render: $.fn.dataTable.render.number( ',', '.', 1, '' )
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                width: '5%'
+            },
+            {
+                targets: 3,
+                render: $.fn.dataTable.render.number( ',', '.', 1, '' ),
+                width: '10%'
+            },
+            {
+                targets:4,
+                render: $.fn.dataTable.render.number( ',', '.',1, '','%' ),
+                width: '10%'
             },
             {
                 targets: 5,
-                render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                width: '10%'
             },
             {
                 targets: 6,
-                render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                width: '10%'
             },
+            
             {
                 targets: 7,
-                render: $.fn.dataTable.render.number( ',', '.',1, '','%' )
+                render: $.fn.dataTable.render.number( ',', '.', 1, '','' ),
+                width: '10%'
             },
             {
-                targets: 8,
-                render: $.fn.dataTable.render.number( ',', '.', 1, '','' )
-            },
-            {
-                "targets": [ 3 ],
+                "targets": [5],
                 "visible": false
             },
-            {
-                "targets": [ 4 ],
-                "visible": false
-            },
-            {
-                "targets": [ 5 ],
-                "visible": false
-            },
-            {
-                "targets": [ 6 ],
-                "visible": false
-            },
-            { className: "dt-center", targets: [0,1,2,7,8] }
+            { className: "dt-center", targets: [0,1,2,3,4,5,6,7,] }
         ],
         footerCallback: function ( row, data, start, end, display ) 
         {
             var api = this.api();
-            var nb_cols = 6;
+            var nb_cols = 7;
             var j = 1;
             while(j < nb_cols)
             {
@@ -460,21 +539,21 @@ function llenarTabla2(query_result)
                 $( api.column( j ).footer() ).html(pageTotal.toLocaleString(undefined, {maximumFractionDigits:2}));
                 j++;
             }
-            //Calculo de margen total para la columna 7
-            var venta = api.column(1 , { page: 'current'} ).data().reduce( function (a, b) 
+            //Calculo de margen total para la columna 
+            var venta = api.column(2 , { page: 'current'} ).data().reduce( function (a, b) 
             {
                 return Number(a) + Number(b);
             }, 0 );
-            var CostoVenta = api.column(6 , { page: 'current'} ).data().reduce( function (a, b) 
+            var CostoVenta = api.column(5 , { page: 'current'} ).data().reduce( function (a, b) 
             {
                 return Number(a) + Number(b);
             }, 0 );
             
             var margenGeneral= ((venta-CostoVenta)/venta)*100;
             
-            $( api.column( 7 ).footer() ).html(margenGeneral.toLocaleString(undefined, {maximumFractionDigits:1}));
+            $( api.column( 6 ).footer() ).html(margenGeneral.toLocaleString(undefined, {maximumFractionDigits:1})+'%');
         }
-    } ).columns.adjust();
+    } ).columns.adjust().draw();
     
 }
 
@@ -593,7 +672,7 @@ function agregarDias(general,periodoyano)
     llenarTabla1(general,periodoyano);
 }
 
-function queryVerValorInventario2(datos, req,nombre_prov)
+function queryVerValorInventario2(aniopasado,datos, req,nombre_prov)
 {
      $.ajax
     ({
@@ -627,11 +706,11 @@ function queryVerValorInventario2(datos, req,nombre_prov)
             if(response==false)
             {
                 document.getElementById('spinner2').style.display = "none";
-                agregarDias2(datos,response,req,nombre_prov);
+                agregarDias2(aniopasado,datos,response,req,nombre_prov);
             }
             else
             { 
-                agregarDias2(datos,response,req,nombre_prov);
+                agregarDias2(aniopasado,datos,response,req,nombre_prov);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) 
@@ -655,14 +734,43 @@ function queryVerValorInventario2(datos, req,nombre_prov)
     });
 }
 
-function agregarDias2(general,inventarioProm2,req,nombre_prov)
+function agregarDias2(aniopasado,general,inventarioProm2,req,nombre_prov)
 {
-    console.log(inventarioProm2);
-    console.log(promediodeVentasProveedor);
     var pivote;
     var columnaCalculada=new Array();
+    
+    console.log(aniopasado);
+    console.log(general);
+    
+    for(var q=0;q<general.length;q++)
+    {
+           
+        for(var w=0;w<aniopasado.length;w++)
+        {
+            console.log(general[q].Sucursal+'=='+aniopasado[w].Sucursal);
+            if(general[q].Sucursal==aniopasado[w].Sucursal)
+            {
+                
+                console.log('si');
+                general[q].VentaNeta2=aniopasado[w].VentaNeta2;
+                general[q].UdsVen2=aniopasado[w].UdsVen2;
+            }
+            else
+            {
+                if(!general[q].VentaNeta2 && !general[q].UdsVen2)
+                {
+                   general[q].VentaNeta2=0;
+                    general[q].UdsVen2=0;
+                }
+            }
+        }
+        
+    }
+    
+    
     for(var j=0;j<general.length;j++)
     {
+        
         var valorInventario=0;
         var promV=0
         pivote=parseInt(general[j].Sucursal);
@@ -692,13 +800,13 @@ function agregarDias2(general,inventarioProm2,req,nombre_prov)
     }
     if(tabla2==null)
     {
-        llenarTabla2(general);
+        llenarTabla2(general,req);
         llenarRegiones(general)
     }else
     {
         tabla2.clear().draw();
         //console.log(response);
-        llenarTabla2(general);
+        llenarTabla2(general,req);
         llenarRegiones(general);
     }
     
@@ -825,7 +933,7 @@ function llenarRegiones(consulta)
     
 }
 
-function queryPromediodeVentGeneral(url, periodoyano, req_type)///////////////////////////////////////////////////////////////////////
+function queryPromediodeVentGeneral(url, periodoyano, req_type)
 {
 
     $.ajax({

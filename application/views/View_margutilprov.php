@@ -66,7 +66,7 @@ $(document).ready(function()
             <br><br>
             <div class="row">
               
-                <div class="col-8 border-right border-bottom border-left border-default rounded-left">
+                <div class="col-7 border-right border-bottom border-left border-default rounded-left">
                    <div class="row">
                         <?php 
                             //$divs = sizeof($regiones);
@@ -80,7 +80,7 @@ $(document).ready(function()
                                 ?>
                                     <div class="col-<?php echo $largoDivs; ?>">
                                         <h4 class="d-flex justify-content-center"><?php echo $key->nombre; ?></h4>
-                                        <img src="<?php echo base_url('assets/img/zona'.$i.'.jpg'); ?>" class="rounded mx-auto d-block" width="80px">
+                                        <img src="<?php echo base_url('assets/img/zona'.$i.'.jpg'); ?>" class="rounded mx-auto d-block" width="70px">
                                         <h4 id="porcentaje<?php echo $i;?>" class="d-flex justify-content-center text-danger"></h4>
                                         <h5 class="d-flex justify-content-center" style="color:#34518E"><strong id="ventaNeta<?php echo $i;?>"></strong></h5>
                                         
@@ -122,24 +122,26 @@ $(document).ready(function()
                         </table>
                     </div>
                 </div>
-                <div class="col-4 border border-default rounded-right">
-                  <div class="spinner-border text-primary" id="spinner2"  role="status">
-                                  <span class="sr-only">Loading...</span>
+                <div class="col-5 border border-default rounded-right">
+                  
+                    <div class="row">
+                        <img id="imagenProv" src="" class="rounded float-left " height="50px">
+                        <div class="spinner-border text-primary" id="spinner2"  role="status">
+                                      <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
-                    <div class="row"><img id="imagenProv" src="" class="rounded float-left " height="80px"></div>
-                   <br><br><br><br><br>
+                   <br>
                    <h5 style="color:blue;" id="tituloproveedor"></h5>
                    <br><br>
                     <div class="table-responsive">
-                        <table id="detalles" class="display cell-border responsive stripe" width="100%" >
+                        <table id="detalles" class="display cell-border stripe" width="100%" >
                                 <thead>
                                     <tr>
                                         <th>Suc</th>
-                                        <th>Venta</th>
-                                        <th>UdsVen</th>
-                                        <th>Devoluciones</th>
-                                        <th>UdsDev</th>
-                                        <th>Venta</th>
+                                        <th id="ventaProvAnterior">VentaNeta2</th>
+                                        <th id="ventaProvActual">Venta</th>
+                                        <th id="unidsProvAnterior">UdsVen2</th>
+                                        <th id="unidsProvActual">UdsVen</th>
                                         <th>CostoVta</th>
                                         <th>Mgn</th>
                                         <th>DiasInv</th>
@@ -150,7 +152,6 @@ $(document).ready(function()
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th></th>
                                         <th></th>
                                         <th></th>
                                         <th></th>
