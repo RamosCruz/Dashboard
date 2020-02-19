@@ -64,7 +64,7 @@ $(document).ready(function()
 
             
             <br><br>
-            <div class="row">
+            <div class="row" style=" height:500px;">
               
                 <div class="col-7 border-right border-bottom border-left border-default rounded-left">
                    <div class="row">
@@ -79,8 +79,8 @@ $(document).ready(function()
                                 if ($i == 3) break;
                                 ?>
                                     <div class="col-<?php echo $largoDivs; ?>">
-                                        <h4 class="d-flex justify-content-center"><?php echo $key->nombre; ?></h4>
-                                        <img src="<?php echo base_url('assets/img/zona'.$i.'.jpg'); ?>" class="rounded mx-auto d-block" width="70px">
+                                        <p class="d-flex justify-content-center"><?php echo $key->nombre; ?></p>
+                                        <img src="<?php echo base_url('assets/img/zona'.$i.'.jpg'); ?>" class="rounded mx-auto d-block" width="50px">
                                         <h4 id="porcentaje<?php echo $i;?>" class="d-flex justify-content-center text-danger"></h4>
                                         <h5 class="d-flex justify-content-center" style="color:#34518E"><strong id="ventaNeta<?php echo $i;?>"></strong></h5>
                                         
@@ -122,48 +122,109 @@ $(document).ready(function()
                         </table>
                     </div>
                 </div>
-                <div class="col-5 border border-default rounded-right">
-                  
-                    <div class="row">
-                        <img id="imagenProv" src="" class="rounded float-left " height="50px">
-                        <div class="spinner-border text-primary" id="spinner2"  role="status">
-                                      <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                   <br>
-                   <h5 style="color:blue;" id="tituloproveedor"></h5>
-                   <br><br>
-                    <div class="table-responsive">
-                        <table id="detalles" class="display cell-border stripe" width="100%" >
-                                <thead>
-                                    <tr>
-                                        <th>Suc</th>
-                                        <th id="ventaProvAnterior">VentaNeta2</th>
-                                        <th id="ventaProvActual">Venta</th>
-                                        <th id="unidsProvAnterior">UdsVen2</th>
-                                        <th id="unidsProvActual">UdsVen</th>
-                                        <th>CostoVta</th>
-                                        <th>Mgn</th>
-                                        <th>DiasInv</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                <div class="col-5 border-right border-bottom border-left border-default rounded-right">
 
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                        </table>
+               
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                      <li class="nav-item" id="nav-sucursal-tab">
+                        <a onclick="pestanaSuc()" class="nav-link active" id="pestaniaSuc-tab" data-toggle="tab" href="#pestaniaSuc" role="tab" aria-controls="pestaniaSuc" aria-selected="true">Sucursales</a>
+                      </li>
+                      <li class="nav-item" id="nav-capas-tab">
+                        <a onclick="pestanaCap()" class="nav-link" id="pestaniaCapas-tab" data-toggle="tab" href="#pestaniaCapas" role="tab" aria-controls="pestaniaCapas" aria-selected="false">Capas</a>
+                      </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="pestaniaSuc" role="tabpanel" aria-labelledby="pestaniaSuc-tab" >
+                          <br>
+                            <div class="row">
+                                <img id="imagenProv" src="" class="rounded float-left " height="50px">
+                                <div class="spinner-border text-primary" id="spinner2"  role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+
+                            <h5 style="color:blue;" id="tituloproveedor"></h5>
+
+                            <div class="table-responsive">
+                                <table id="detalles" class="display cell-border stripe" width="100%" >
+                                    <thead>
+                                        <tr>
+                                            <th>Suc</th>
+                                            <th id="ventaProvAnterior">VentaNeta2</th>
+                                            <th id="ventaProvActual">Venta</th>
+                                            <th id="unidsProvAnterior">UdsVen2</th>
+                                            <th id="unidsProvActual">UdsVen</th>
+                                            <th>CostoVta</th>
+                                            <th>Mgn</th>
+                                            <th>DiasInv</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                      </div>
+                      <div class="tab-pane" id="pestaniaCapas" role="tabpanel" aria-labelledby="pestaniaCapas-tab" >
+                         <br>
+                         <div class="row">
+                                <img id="imagenProv2" src="" class="rounded float-left " height="50px">
+                                <div class="spinner-border text-primary" id="spinner3"  role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <h5 style="color:blue;" id="tituloproveedor2"></h5>
+                            <div class="table-responsive">
+                                <table id="capas" class="display cell-border compact" width="100%" >
+                                    <thead>
+                                        <tr>
+                                            <th>Proveedor</th>
+                                            <th>Capa</th>
+                                            <th>Descripcion</th>
+                                            <th>VtaProm</th>
+                                            <th>VtaProm$</th>
+                                            <th>DiasInv</th>
+                                            <th>Existencia</th>
+                                            <th>Cto_Prom</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                      </div>
                     </div>
+                    
                 </div>
 
 

@@ -1,9 +1,11 @@
 var url;
 var tabla= null;
 var tabla2= null;
+var tabla3= null;
 var inventarioProm;
 var promediodeVentasGeneral=[];
 var promediodeVentasProveedor=[];
+var CapasProveedoresGeneral;
 //Graficas: https://www.chartjs.org/samples/latest/
 //.ready(function() se ejecuta cuando se carga la pagina por primera vez
 
@@ -11,6 +13,7 @@ $(document).ready(function()
 {
     document.getElementById('spinner').style.display = "none";
      document.getElementById('spinner2').style.display = "none";
+    document.getElementById('spinner3').style.display = "none";
     $('#ejercicio').each(function() {
         var year = (new Date()).getFullYear();
         var current = year;
@@ -23,7 +26,13 @@ $(document).ready(function()
         }
     });
 
-    
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          var target = $(e.target).attr("href") // activated tab
+          //alert;
+          console.log(target);
+        $($.fn.dataTable.tables(true)).DataTable()
+        .columns.adjust();
+        });
     
     $("#consultar").click(function () 
     {
@@ -36,7 +45,9 @@ $(document).ready(function()
         $('#porcentaje2').text("0%"); 
         
         $('#tituloproveedor').text("");
+        $('#tituloproveedor2').text("");
         $("#imagenProv").attr("src","");
+        $("#imagenProv2").attr("src","");
         
         inventarioProm=null;
         var periodo=$('#periodo').val();
@@ -60,8 +71,9 @@ $(document).ready(function()
             {
                 tabla.clear().draw();
                 tabla2.clear().draw();
+                tabla3.clear().draw();
             }
-           
+            
             var periodoyano = {periodo:periodo,ejercicio:ejercicio};
             queryPromediodeVentGeneral(getBaseURL()+"con_margutilprov/margenGeneral", periodoyano, 'GET');
             
@@ -197,10 +209,9 @@ function llenarTabla1(query_result,req)
                             colvis: "Visibilidad"
                         }
         },
-        scrollY:        "240px",
+        scrollY:        "260px",
         paging:         false,
         select: 'single',
-        autoWidth: true,
         columnDefs: [
             {
                 targets: 2,
@@ -264,6 +275,11 @@ function llenarTabla1(query_result,req)
 
     
     tabla.on( 'select', function ( e, dt, type, indexes ) {
+        
+        if(tabla3!=null)
+            {
+                tabla3.clear().draw();
+            }
                 $('#ventaNeta0').text("$0");  
                 $('#ventaNeta1').text("$0"); 
                 $('#ventaNeta2').text("$0"); 
@@ -278,6 +294,9 @@ function llenarTabla1(query_result,req)
                 var req1 = {proveedor:rowData[0].Num_prov,periodo:req.periodo,ejercicio:req.ejercicio};
                 var nombre_prov = rowData[0].Proveedor;
                 queryPromediodeVentProvee(getBaseURL()+"con_margutilprov/getMargenPorDebsur", req1, 'GET', nombre_prov);
+                
+                capasProveedoresGeneral(req1);
+                
                 
             } );
     
@@ -349,8 +368,8 @@ function getMargenPorSuc(url, req, req_type, nombre_prov)
 function MargenPorDebsurAnioPasado(MargenPorDebsur, req, nombre_prov)
 {
     var aniopasado =parseInt(req.ejercicio)-1;
-    console.log(req.proveedor);
-    console.log(aniopasado);
+    //console.log(req.proveedor);
+    //console.log(aniopasado);
     $.ajax
     ({
         xhr: function()
@@ -382,7 +401,7 @@ function MargenPorDebsurAnioPasado(MargenPorDebsur, req, nombre_prov)
             if(aniopasado==false)
             {
                 
-                Swal.fire('No hay datos getMargenPorSuc!');
+                Swal.fire('No hay datos MargenPorDebsurAnioPasado!');
             }
             else
             { 
@@ -466,15 +485,12 @@ function llenarTabla2(query_result,periodoyejerciciotabla2)///////////
                         }
             
         },
-        scrollY:        "310px",
+        scrollY:        "315px",
         scrollX: true,
         paging:         false,
         fixedHeader: true,
         searching: false,
         select: 'single',
-        fixedColumns:   {
-            leftColumns: 1
-        },
         columnDefs: 
         [
             
@@ -499,17 +515,17 @@ function llenarTabla2(query_result,periodoyejerciciotabla2)///////////
             },
             {
                 targets:4,
-                render: $.fn.dataTable.render.number( ',', '.',1, '','%' ),
+                render: $.fn.dataTable.render.number( ',', '.',1, '','' ),
                 width: '10%'
             },
             {
                 targets: 5,
-                render: $.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                render: $.fn.dataTable.render.number( ',', '.', 2, '' ),
                 width: '10%'
             },
             {
                 targets: 6,
-                render: $.fn.dataTable.render.number( ',', '.', 2, '$' ),
+                render: $.fn.dataTable.render.number( ',', '.', 2, '','%' ),
                 width: '10%'
             },
             
@@ -554,7 +570,7 @@ function llenarTabla2(query_result,periodoyejerciciotabla2)///////////
             $( api.column( 6 ).footer() ).html(margenGeneral.toLocaleString(undefined, {maximumFractionDigits:1})+'%');
         }
     } ).columns.adjust().draw();
-    
+
 }
 
 function queryVerValorInventario(getMargenGeneral,periodoyano)
@@ -706,6 +722,7 @@ function queryVerValorInventario2(aniopasado,datos, req,nombre_prov)
             if(response==false)
             {
                 document.getElementById('spinner2').style.display = "none";
+                document.getElementById('spinner3').style.display = "none";
                 agregarDias2(aniopasado,datos,response,req,nombre_prov);
             }
             else
@@ -739,19 +756,19 @@ function agregarDias2(aniopasado,general,inventarioProm2,req,nombre_prov)
     var pivote;
     var columnaCalculada=new Array();
     
-    console.log(aniopasado);
-    console.log(general);
+    //console.log(aniopasado);
+    //console.log(general);
     
     for(var q=0;q<general.length;q++)
     {
            
         for(var w=0;w<aniopasado.length;w++)
         {
-            console.log(general[q].Sucursal+'=='+aniopasado[w].Sucursal);
+            //console.log(general[q].Sucursal+'=='+aniopasado[w].Sucursal);
             if(general[q].Sucursal==aniopasado[w].Sucursal)
             {
                 
-                console.log('si');
+                //console.log('si');
                 general[q].VentaNeta2=aniopasado[w].VentaNeta2;
                 general[q].UdsVen2=aniopasado[w].UdsVen2;
             }
@@ -801,24 +818,29 @@ function agregarDias2(aniopasado,general,inventarioProm2,req,nombre_prov)
     if(tabla2==null)
     {
         llenarTabla2(general,req);
+        
         llenarRegiones(general)
     }else
     {
         tabla2.clear().draw();
+        
         //console.log(response);
         llenarTabla2(general,req);
         llenarRegiones(general);
     }
     
     $("#imagenProv").attr("src", getBaseURL()+"assets/img/"+req.proveedor+".png");
+    $("#imagenProv2").attr("src", getBaseURL()+"assets/img/"+req.proveedor+".png");
     var myImage = new Image();
     myImage.src = getBaseURL()+"assets/img/"+req.proveedor+".png";
     myImage.onerror = function(){
        $("#imagenProv").attr("src", getBaseURL()+"assets/img/noimg.png");
+       $("#imagenProv2").attr("src", getBaseURL()+"assets/img/noimg.png");
     }
     
     
     $('#tituloproveedor').text(req.proveedor+" - "+nombre_prov);
+    $('#tituloproveedor2').text(req.proveedor+" - "+nombre_prov);
     
 }
 
@@ -843,6 +865,7 @@ function llenarRegiones(consulta)
             xhr.onloadend = function (e) {
                
                 document.getElementById('spinner2').style.display = "none";
+                document.getElementById('spinner3').style.display = "none";
             }
             xhr.send();
             return xhr;
@@ -989,6 +1012,7 @@ function queryPromediodeVentGeneral(url, periodoyano, req_type)
     
     
 }
+
 function queryPromediodeVentProvee(baseurl, req1, typereq, nombre_prov)
 {
     $.ajax({
@@ -1003,6 +1027,7 @@ function queryPromediodeVentProvee(baseurl, req1, typereq, nombre_prov)
             }
             xhr.onloadstart = function (e) {
                 document.getElementById('spinner2').style.display = "block";
+                document.getElementById('spinner3').style.display = "block";
             }
             xhr.onloadend = function (e) {
                
@@ -1039,4 +1064,138 @@ function queryPromediodeVentProvee(baseurl, req1, typereq, nombre_prov)
             });
         }
     });
+}
+
+function capasProveedoresGeneral(req)
+{
+    $.ajax({
+        type: 'GET',
+        url: getBaseURL()+"con_margutilprov/CapasProveedoresGeneral",
+        data:{proveedor:req.proveedor},
+        dataType: "json",
+        success: function(response)
+        {
+            CapasProveedoresGeneral=response;
+            llenarTabla3(response);
+        },
+        error: function (xhr, ajaxOptions, thrownError) 
+        {
+            Swal.fire
+            ({
+                title: xhr.status+" "+thrownError,
+                icon: "info",
+                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/CapasProveedoresGeneral</p>",
+                showCloseButton: true,
+                showCancelButton: true,
+                focusConfirm: false,
+                confirmButtonText:
+                '<i class="fa fa-thumbs-up"></i> Ok',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+                cancelButtonText:
+                '<i class="fa fa-thumbs-down">Cancelar</i>',
+                cancelButtonAriaLabel: 'Thumbs down'
+            });
+        }
+    });
+}
+
+function llenarTabla3(response)
+{
+    tabla3 = $('#capas').DataTable( {
+        destroy: true,
+        colReorder: true,
+        data:response,
+        fixedHeader: true,
+        columns:
+        [
+            {data:"Proveedor"},//0 Oculto
+            {data:"Capa"},//1
+            {data:"Descripcion"},//2
+            {data:"VtaProm"},//3
+            {data:"VtaProm$"},//4
+            {data:"DiasInv"},//5
+            {data:"Existencia"},//6
+            {data:"Cto_Prom"},//7
+            {data:"Valor"}//8
+        ],
+        language:
+        {
+            sProcessing:     "Procesando...",
+                        sLengthMenu:     "Mostrar _MENU_ registros",
+                        sZeroRecords:    "No se encontraron resultados",
+                        sEmptyTable:     "Ningún dato disponible en esta tabla",
+                        sInfo:           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        sInfoEmpty:      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        sInfoFiltered:   "(filtrado de un total de _MAX_ registros)",
+                        sInfoPostFix:    "",
+                        sSearch:         "Buscar:",
+                        sUrl:            "",
+                        sInfoThousands:  ",",
+                        sLoadingRecords: "Cargando...",
+                        oPaginate: {
+                            sFirst:    "Primero",
+                            sLast:     "Último",
+                            sNext:     "Siguiente",
+                            sPrevious: "Anterior"
+                        },
+                        oAria: {
+                            sSortAscending:  ": Activar para ordenar la columna de manera ascendente",
+                            sSortDescending: ": Activar para ordenar la columna de manera descendente"
+                        },
+                        buttons: {
+                            copy: "Copiar",
+                            colvis: "Visibilidad"
+                        }
+        },
+        scrollY:"345px",
+        scrollX:true,
+        paging:false,
+        select:'single',
+        searching: false,
+        columnDefs: [
+            {
+                targets: [ 0,1 ],
+                visible: false
+            },
+            {
+                targets: 4,
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
+            },
+            {
+                targets: 7,
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
+            },
+            {
+                targets: 8,
+                render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
+            },
+            
+            { className: "dt-center", targets: [3,4,5,6,7,8] }
+        ],
+        footerCallback: function ( row, data, start, end, display ) 
+        {
+            var api = this.api();
+            var nb_cols = 9;
+            var j = 3;
+            while(j < nb_cols)
+            {
+                var pageTotal = api.column( j, { page: 'current'} ).data().reduce( function (a, b)
+                {
+                    return Number(a) + Number(b);
+                }, 0 );
+                // Update footer
+                $( api.column( j ).footer() ).html(pageTotal.toLocaleString(undefined, {maximumFractionDigits:2}));
+                j++;
+            }
+        }
+    } ).columns.adjust().draw();
+    
+   
+}
+
+function pestanaSuc()
+{
+}
+function pestanaCap()
+{
 }

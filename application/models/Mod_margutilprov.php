@@ -240,5 +240,19 @@ class Mod_margutilprov extends CI_Model {
             return false;    
         }
     }
+    function getCapasProveedoresGeneral($proveedor)
+    {
+        
+        $this->db->query("EXEC LERC_Capas");
+        $query= $this->db->query("Select * From LERC_dashboardcapas WHERE Proveedor='".$proveedor."' and Capa='5';");
+        
+        if($query->result()){
+            return $query->result_array();
+        }
+        else
+        {
+            return $this->db->error(); 
+        }
+    }
 }
 ?>

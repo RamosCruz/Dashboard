@@ -165,11 +165,11 @@ class Con_margutilprov extends CI_Controller {
         $result= $this->Mod_margutilprov->tresMesesAtrasProveedor($proveedor,$fecha_ini,$fecha_fin);
         echo json_encode($result);
     }
-    public function getPromediodeVenGeneralRCA()
+    public function CapasProveedoresGeneral()
     {
-    }
-    public function getPromediodeVenProveeRCA()
-    {
+        $proveedor = $this->input->get('proveedor');
+        $result=$this->Mod_margutilprov->getCapasProveedoresGeneral($proveedor);
+        echo json_encode($result);
     }
 }
 ?>

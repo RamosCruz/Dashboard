@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+    <link rel="apple-touch-icon" sizes="57x57" href="<?php echo base_url('assets/img/favicon/apple-icon-57x57.png'); ?>">
+    <link rel="apple-touch-icon" sizes="60x60" href="<?php echo base_url('assets/img/favicon/apple-icon-60x60.png'); ?>">
+    <link rel="apple-touch-icon" sizes="72x72" href="<?php echo base_url('assets/img/favicon/apple-icon-72x72.png'); ?>">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url('assets/img/favicon/apple-icon-76x76.png'); ?>">
+    <link rel="apple-touch-icon" sizes="114x114" href="<?php echo base_url('assets/img/favicon/apple-icon-114x114.png'); ?>">
+    <link rel="apple-touch-icon" sizes="120x120" href="<?php echo base_url('assets/img/favicon/apple-icon-120x120.png'); ?>">
+    <link rel="apple-touch-icon" sizes="144x144" href="<?php echo base_url('assets/img/favicon/apple-icon-144x144.png'); ?>">
+    <link rel="apple-touch-icon" sizes="152x152" href="<?php echo base_url('assets/img/favicon/apple-icon-152x152.png'); ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo base_url('assets/img/favicon/apple-icon-180x180.png'); ?>">
+    <link rel="icon" type="image/png" sizes="192x192"  href="<?php echo base_url('assets/img/favicon/android-icon-192x192.png'); ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo base_url('assets/img/favicon/favicon-32x32.png'); ?>">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo base_url('assets/img/favicon/favicon-96x96.png'); ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url('assets/img/favicon/favicon-16x16.png'); ?>">
+    <link rel="manifest" href="<?php echo base_url('assets/img/favicon/manifest.json'); ?>">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="<?php echo base_url('assets/img/favicon/ms-icon-144x144.png'); ?>">
+    <meta name="theme-color" content="#ffffff">
 
     <title>Dashboard Mini</title>
     
@@ -432,16 +448,13 @@ html{
   font-size: 11px;
 }
 
-#example thead th{
-    font-size: 10px;
-}    
+  
 #example tbody tr{
     cursor: pointer;
     padding:0px; 
     height:15px;
 }
 #example tbody td{
-    font-size: 10px;
     padding:0px; 
     height:15px;
 }
@@ -452,7 +465,6 @@ html{
     
 
 #detalles thead th{
-    font-size: 10px;
     padding: auto; 
 }     
 #detalles tbody tr{
@@ -462,13 +474,19 @@ html{
     width:auto;
 }
 #detalles tbody td{
-    font-size: 10px;
     padding:0px; 
     height:15px;
     width:auto;
 }
+
+#capas th, td { white-space: nowrap; }
+    
     
 
+    
+table{
+    font-size: 10px;
+}
        
 .dataTables_wrapper .dataTables_length {
 float: right;
@@ -478,6 +496,22 @@ float: left;
 text-align: left;
 }
 
+.nav-tabs .nav-link.active {
+    color: #007bff;
+    background-color: #bdd7ee;
+}
+.nav-tabs .nav-link{
+    color: #9b9b9b;
+}
+    .row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+    
 </style>
 
 </html>
