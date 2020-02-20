@@ -436,6 +436,8 @@ table.dataTable td {
     </style>
 </head>
 <body>
+    
+   
     <?php 
         $this->load->view($vista);
     ?>  
@@ -497,8 +499,8 @@ text-align: left;
 }
 
 .nav-tabs .nav-link.active {
-    color: #007bff;
-    background-color: #bdd7ee;
+    color: #fff;
+    background-color: #17A2B8;
 }
 .nav-tabs .nav-link{
     color: #9b9b9b;

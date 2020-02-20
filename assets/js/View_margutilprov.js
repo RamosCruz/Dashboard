@@ -11,10 +11,48 @@ var CapasProveedoresGeneral;
 
 $(document).ready(function() 
 {
+    var periodo;
+    var ejercicio;
+    $("input[name = 'periodo']").click(function () {
+        periodo = $('input:radio[name=periodo]:checked').val();
+            $("#label"+periodo).addClass("active");
+        for(var i=1;i<13;i++)
+        {
+            if(i!=parseInt(periodo))
+            {
+                if(i<10)
+                {
+                    $("#label0"+i).removeClass("active");
+                }else
+                {
+                     $("#label"+i).removeClass("active");
+                }
+            }
+        }
+        
+    });
+    
+    $("input[name = 'ejercicio']").click(function () {
+        ejercicio = $('input:radio[name=ejercicio]:checked').val();
+            $("#label"+parseInt(ejercicio)).addClass("active");
+        var limit1 = parseInt((new Date()).getFullYear())-2;
+        var limit2 = parseInt((new Date()).getFullYear());
+        for(var i=limit1;i<=limit2;i++)
+        {
+            
+            if(i!=parseInt(ejercicio))
+            {
+                $("#label"+i).removeClass("active");
+            }
+        }
+    });
+    
+    
+    
     document.getElementById('spinner').style.display = "none";
-     document.getElementById('spinner2').style.display = "none";
+    document.getElementById('spinner2').style.display = "none";
     document.getElementById('spinner3').style.display = "none";
-    $('#ejercicio').each(function() {
+   /* $('#ejercicio').each(function() {
         var year = (new Date()).getFullYear();
         var current = year;
         year -= 2;
@@ -24,7 +62,7 @@ $(document).ready(function()
             else
                 $(this).append('<option value="' + (year + i) + '">' + (year + i) + '</option>');
         }
-    });
+    });*/
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
           var target = $(e.target).attr("href") // activated tab
@@ -50,15 +88,19 @@ $(document).ready(function()
         $("#imagenProv2").attr("src","");
         
         inventarioProm=null;
-        var periodo=$('#periodo').val();
-        var ejercicio=$('#ejercicio').val();
+        //var periodo=$('#periodo').val();
+        //var ejercicio=$('#ejercicio').val();
         
         var fecha = new Date();
         var anoActual = fecha.getFullYear();
         
-        if(periodo=="Seleccionar...")
+        if(periodo==null)
         {
             Swal.fire("Selecciona un periodo por favor!");
+        }
+        else if(ejercicio==null)
+        {
+            Swal.fire("Selecciona el ejercicio por favor!");
         }
         else if(ejercicio < (anoActual-2) || ejercicio > anoActual)
         {
@@ -76,15 +118,8 @@ $(document).ready(function()
             
             var periodoyano = {periodo:periodo,ejercicio:ejercicio};
             queryPromediodeVentGeneral(getBaseURL()+"con_margutilprov/margenGeneral", periodoyano, 'GET');
-            
         }
-             
-        
-        
-            
     });
-    
-    
 });
     
 function getBaseURL()
@@ -209,7 +244,7 @@ function llenarTabla1(query_result,req)
                             colvis: "Visibilidad"
                         }
         },
-        scrollY:        "260px",
+        scrollY:        "200px",
         paging:         false,
         select: 'single',
         columnDefs: [
@@ -485,7 +520,7 @@ function llenarTabla2(query_result,periodoyejerciciotabla2)///////////
                         }
             
         },
-        scrollY:        "315px",
+        scrollY:        "255px",
         scrollX: true,
         paging:         false,
         fixedHeader: true,
@@ -1147,7 +1182,7 @@ function llenarTabla3(response)
                             colvis: "Visibilidad"
                         }
         },
-        scrollY:"345px",
+        scrollY:"285px",
         scrollX:true,
         paging:false,
         select:'single',

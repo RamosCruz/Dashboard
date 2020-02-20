@@ -8,10 +8,19 @@ $(document).ready(function()
     //console.log(query);
     //llenarTabla(query);
     setBaseURL("<?php echo base_url(); ?>");
+    $("#pag1").addClass("active");
+    $("#pag2").removeClass("active");
+    $("#pag3").removeClass("active");
 });
 </script>
 
-
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li id="pag1" class="breadcrumb-item active">Proveedores</li>
+        <li id="pag2" class="breadcrumb-item"><a href="#">Pagina 2</a></li>
+        <li id="pag3" class="breadcrumb-item"><a href="#">Pagina 3</a></li>
+    </ol>
+</nav>
 
 
 
@@ -21,10 +30,77 @@ $(document).ready(function()
     <div class="container-fluid">
             <div class="row rounded" style="background-color:#bdd7ee">
                <div class="form-inline align-items-center col-sm-12">
-                   <div class="form-group col-sm-1">
+                   <div class="form-group col-sm-2">
                        <img src="<?php echo base_url('assets/img/logo.png'); ?>" class="rounded" width="80px">
                    </div>
-                   <div class="form-group col-sm-2">
+                   <div class="form-group col-sm-3">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group-sm btn-group-vertical btn-group-toggle " role="group" aria-label="First group">
+                            <label id="label01" class="btn btn-outline-info">
+                                <input type="radio" value="01" name="periodo"> ENERO
+                            </label>
+                            <label id="label05" class="btn btn-outline-info ">
+                                <input type="radio" value="05" name="periodo"> MARZO
+                            </label>
+                            <label id="label09" class="btn btn-outline-info">
+                                <input type="radio" value="09" name="periodo"> SEPTIEMBRE
+                            </label>
+                        </div>
+                        <div class="btn-group-sm btn-group-vertical btn-group-toggle" role="group" aria-label="Second group">
+                            <label id="label02" class="btn btn-outline-info ">
+                                <input type="radio" value="02" name="periodo"> FEBRERO
+                            </label>
+                            <label id="label06" class="btn btn-outline-info ">
+                                <input type="radio" value="06" name="periodo"> JUNIO
+                            </label>
+                            <label id="label10" class="btn btn-outline-info ">
+                                <input type="radio" value="10" name="periodo"> OCTUBRE
+                            </label>
+                        </div>
+                        <div class="btn-group-sm btn-group-vertical btn-group-toggle" role="group" aria-label="Third group">
+                            <label id="label03" class="btn btn-outline-info ">
+                                <input type="radio" value="03" name="periodo"> MARZO
+                            </label>
+                            <label id="label07" class="btn btn-outline-info ">
+                                <input type="radio" value="07" name="periodo"> JULIO
+                            </label>
+                            <label id="label11" class="btn btn-outline-info ">
+                                <input type="radio" value="11" name="periodo"> NOVIEMBRE
+                            </label>
+                        </div>
+                        <div class="btn-group-sm btn-group-vertical btn-group-toggle" role="group" aria-label="Fourth group">
+                            <label id="label04" class="btn btn-outline-info ">
+                                <input type="radio" value="04" name="periodo"> ABRIL
+                            </label>
+                            <label id="label08" class="btn btn-outline-info ">
+                                <input type="radio" value="08" name="periodo"> AGOSTO
+                            </label>
+                            <label id="label12" class="btn btn-outline-info ">
+                                <input type="radio" value="12" name="periodo"> DICIEMBRE
+                            </label>
+                        </div>
+                    </div>
+                   </div>
+                  <div class="form-group col-sm-1">
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group-sm btn-group-vertical btn-group-toggle " role="group" aria-label="Fiveth group">
+                           <?php
+                            $anoactual= 1+(int)date("Y");
+                            
+                            for ($i = 1; $i <= 3; $i++) 
+                            { 
+                                
+                            ?>
+                                <label id="label<?php echo ($anoactual-$i); ?>" class="btn btn-outline-info">
+                                    <input type="radio" value="<?php echo ($anoactual-$i); ?>" name="ejercicio"> <?php echo ($anoactual-$i); ?>
+                                </label>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                   </div>
+                   </div>
+                   <!--div class="form-group col-sm-2">
                         <h4>Periodo</h4>
                         <select class="custom-select mr-sm-2" id="periodo" name="periodo">
                             <option selected>Seleccionar...</option>
@@ -43,15 +119,15 @@ $(document).ready(function()
                         </select>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label class="sr-only" for="inlineFormInputGroup">Ejercicio</label>
+                        <label id="label01" class="sr-only" for="inlineFormInputGroup">Ejercicio</label>
                             <h4>Ejercicio</h4>
                             <select class="custom-select mr-sm-2" name="ejercicio" id="ejercicio" >
 
                             </select>
-                    </div>
+                    </div-->
                     <div class="form-group col-sm-2">
 
-                        <button id="consultar" class="btn btn-primary mb-2">Consultar</button>
+                        <button id="consultar" class="btn btn-info mb-2">Consultar</button>
                     </div>
                     <div class="form-group col-sm-2">
                         <div class="spinner-border text-primary" id="spinner"  role="status">
@@ -64,7 +140,7 @@ $(document).ready(function()
 
             
             <br><br>
-            <div class="row" style=" height:500px;">
+            <div class="row" style=" height:460px;">
               
                 <div class="col-7 border-right border-bottom border-left border-default rounded-left">
                    <div class="row">
