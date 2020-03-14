@@ -171,5 +171,13 @@ class Con_margutilprov extends CI_Controller {
         $result=$this->Mod_margutilprov->getCapasProveedoresGeneral($proveedor);
         echo json_encode($result);
     }
+    public function EfectividadProveedoresGeneral()
+    {
+        $proveedor = $this->input->get('proveedor');
+        $periodo = $this->input->get('periodo');
+        $ejercicio = $this->input->get('ejercicio');
+        $result=$this->Mod_margutilprov->getEfectividadProveedoresGeneral($proveedor,$periodo,$ejercicio);
+        echo json_encode($result);
+    }
 }
 ?>

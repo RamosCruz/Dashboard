@@ -254,5 +254,18 @@ class Mod_margutilprov extends CI_Model {
             return $this->db->error(); 
         }
     }
+    function getEfectividadProveedoresGeneral($proveedor,$periodo,$ejercicio)
+    {
+        $this->db->query("EXEC LERC_EfectividadProveedor '".$proveedor."','".$periodo."','".$ejercicio."';");
+        $query= $this->db->query("Select * From LERC_dashboardefectividad;");
+        
+        if($query->result()){
+            return $query->result_array();
+        }
+        else
+        {
+            return $this->db->error(); 
+        }
+    }
 }
 ?>

@@ -2,10 +2,12 @@ var url;
 var tabla= null;
 var tabla2= null;
 var tabla3= null;
+var tabla4= null;
 var inventarioProm;
 var promediodeVentasGeneral=[];
 var promediodeVentasProveedor=[];
 var CapasProveedoresGeneral;
+var EfectividadProveedoresGeneral;
 //Graficas: https://www.chartjs.org/samples/latest/
 //.ready(function() se ejecuta cuando se carga la pagina por primera vez
 
@@ -52,6 +54,7 @@ $(document).ready(function()
     document.getElementById('spinner').style.display = "none";
     document.getElementById('spinner2').style.display = "none";
     document.getElementById('spinner3').style.display = "none";
+    document.getElementById('spinner4').style.display = "none";
    /* $('#ejercicio').each(function() {
         var year = (new Date()).getFullYear();
         var current = year;
@@ -84,8 +87,10 @@ $(document).ready(function()
         
         $('#tituloproveedor').text("");
         $('#tituloproveedor2').text("");
+        $('#tituloproveedor3').text("");
         $("#imagenProv").attr("src","");
         $("#imagenProv2").attr("src","");
+        $("#imagenProv3").attr("src","");
         
         inventarioProm=null;
         //var periodo=$('#periodo').val();
@@ -165,7 +170,7 @@ function getMargenGeneral(url, periodoyano, req_type)
             if(response==false)
             {
                 console.log(response);
-                Swal.fire('No hay datos getMargenGeneral!');
+                console.log('No hay datos getMargenGeneral!');
             }
             else
             { 
@@ -176,21 +181,7 @@ function getMargenGeneral(url, periodoyano, req_type)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                  title:"Error: "+ xhr.status+" "+thrownError,
-                  icon: "info",
-                  html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/margenGeneral</p>",
-                  showCloseButton: true,
-                  showCancelButton: true,
-                  focusConfirm: false,
-                  confirmButtonText:
-                    '<i class="fa fa-thumbs-up"></i> Ok',
-                  confirmButtonAriaLabel: 'Thumbs up, great!',
-                  cancelButtonText:
-                    '<i class="fa fa-thumbs-down">Cancelar</i>',
-                  cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/margenGeneral</p>");
         }
     });
 
@@ -202,7 +193,6 @@ function llenarTabla1(query_result,req)
     
     tabla = $('#example').DataTable( {
         destroy: true,
-        responsive: true,
         colReorder: true,
         data:query_result,
         columns:
@@ -244,7 +234,7 @@ function llenarTabla1(query_result,req)
                             colvis: "Visibilidad"
                         }
         },
-        scrollY:        "200px",
+        scrollY:        "220px",
         paging:         false,
         select: 'single',
         columnDefs: [
@@ -331,6 +321,7 @@ function llenarTabla1(query_result,req)
                 queryPromediodeVentProvee(getBaseURL()+"con_margutilprov/getMargenPorDebsur", req1, 'GET', nombre_prov);
                 
                 capasProveedoresGeneral(req1);
+                efectividadProveedoresGeneral(req1);
                 
                 
             } );
@@ -370,7 +361,7 @@ function getMargenPorSuc(url, req, req_type, nombre_prov)
             if(response==false)
             {
                 
-                Swal.fire('No hay datos getMargenPorSuc!');
+                console.log('No hay datos getMargenPorSuc!');
             }
             else
             { 
@@ -380,21 +371,7 @@ function getMargenPorSuc(url, req, req_type, nombre_prov)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/getMargenPorDebsur</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/getMargenPorSuc</p>");
         }
     });
     
@@ -435,8 +412,7 @@ function MargenPorDebsurAnioPasado(MargenPorDebsur, req, nombre_prov)
         {
             if(aniopasado==false)
             {
-                
-                Swal.fire('No hay datos MargenPorDebsurAnioPasado!');
+                console.log('No hay datos MargenPorDebsurAnioPasado!');
             }
             else
             { 
@@ -445,21 +421,7 @@ function MargenPorDebsurAnioPasado(MargenPorDebsur, req, nombre_prov)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/MargenPorDebsurAnioPasado</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/MargenPorDebsurAnioPasado</p>");
         }
     });
     
@@ -520,7 +482,7 @@ function llenarTabla2(query_result,periodoyejerciciotabla2)///////////
                         }
             
         },
-        scrollY:        "255px",
+        scrollY:        "245px",
         scrollX: true,
         paging:         false,
         fixedHeader: true,
@@ -657,26 +619,12 @@ function queryVerValorInventario(getMargenGeneral,periodoyano)
             }
             else
             { 
-                Swal.fire('No hay datos queryVerValorInventario!');
+                console.log('No hay datos queryVerValorInventario!');
             }
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/valorInvetarioPorProveedor</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/queryVerValorInventario</p>");
         }
     });
 }
@@ -758,6 +706,7 @@ function queryVerValorInventario2(aniopasado,datos, req,nombre_prov)
             {
                 document.getElementById('spinner2').style.display = "none";
                 document.getElementById('spinner3').style.display = "none";
+                document.getElementById('spinner4').style.display = "none";
                 agregarDias2(aniopasado,datos,response,req,nombre_prov);
             }
             else
@@ -767,21 +716,7 @@ function queryVerValorInventario2(aniopasado,datos, req,nombre_prov)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/getMargenPorDebsur</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/queryVerValorInventario2</p>");
         }
     });
 }
@@ -866,16 +801,19 @@ function agregarDias2(aniopasado,general,inventarioProm2,req,nombre_prov)
     
     $("#imagenProv").attr("src", getBaseURL()+"assets/img/"+req.proveedor+".png");
     $("#imagenProv2").attr("src", getBaseURL()+"assets/img/"+req.proveedor+".png");
+    $("#imagenProv3").attr("src", getBaseURL()+"assets/img/"+req.proveedor+".png");
     var myImage = new Image();
     myImage.src = getBaseURL()+"assets/img/"+req.proveedor+".png";
     myImage.onerror = function(){
        $("#imagenProv").attr("src", getBaseURL()+"assets/img/noimg.png");
        $("#imagenProv2").attr("src", getBaseURL()+"assets/img/noimg.png");
+        $("#imagenProv3").attr("src", getBaseURL()+"assets/img/noimg.png");
     }
     
     
     $('#tituloproveedor').text(req.proveedor+" - "+nombre_prov);
     $('#tituloproveedor2').text(req.proveedor+" - "+nombre_prov);
+    $('#tituloproveedor3').text(req.proveedor+" - "+nombre_prov);
     
 }
 
@@ -901,6 +839,7 @@ function llenarRegiones(consulta)
                
                 document.getElementById('spinner2').style.display = "none";
                 document.getElementById('spinner3').style.display = "none";
+                document.getElementById('spinner4').style.display = "none";
             }
             xhr.send();
             return xhr;
@@ -913,7 +852,7 @@ function llenarRegiones(consulta)
             if(response==false)
             {
                 console.log(response);
-                Swal.fire('No hay datos llenarRegiones!');
+                console.log('No hay datos llenarRegiones!');
             }
             else
             { 
@@ -970,21 +909,7 @@ function llenarRegiones(consulta)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                  title:"Error: "+ xhr.status+" "+thrownError,
-                  icon: "info",
-                  html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/margenGeneral</p>",
-                  showCloseButton: true,
-                  showCancelButton: true,
-                  focusConfirm: false,
-                  confirmButtonText:
-                    '<i class="fa fa-thumbs-up"></i> Ok',
-                  confirmButtonAriaLabel: 'Thumbs up, great!',
-                  cancelButtonText:
-                    '<i class="fa fa-thumbs-down">Cancelar</i>',
-                  cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/llenarRegiones</p>");
         }
     });
     
@@ -1027,21 +952,7 @@ function queryPromediodeVentGeneral(url, periodoyano, req_type)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/getPromediodeVenGeneral</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/queryPromediodeVentGeneral</p>");
         }
     });
     
@@ -1063,6 +974,7 @@ function queryPromediodeVentProvee(baseurl, req1, typereq, nombre_prov)
             xhr.onloadstart = function (e) {
                 document.getElementById('spinner2').style.display = "block";
                 document.getElementById('spinner3').style.display = "block";
+                document.getElementById('spinner4').style.display = "block";
             }
             xhr.onloadend = function (e) {
                
@@ -1082,21 +994,7 @@ function queryPromediodeVentProvee(baseurl, req1, typereq, nombre_prov)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/getPromediodeVenProvee</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/queryPromediodeVentProvee</p>");
         }
     });
 }
@@ -1115,21 +1013,7 @@ function capasProveedoresGeneral(req)
         },
         error: function (xhr, ajaxOptions, thrownError) 
         {
-            Swal.fire
-            ({
-                title: xhr.status+" "+thrownError,
-                icon: "info",
-                html:xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/CapasProveedoresGeneral</p>",
-                showCloseButton: true,
-                showCancelButton: true,
-                focusConfirm: false,
-                confirmButtonText:
-                '<i class="fa fa-thumbs-up"></i> Ok',
-                confirmButtonAriaLabel: 'Thumbs up, great!',
-                cancelButtonText:
-                '<i class="fa fa-thumbs-down">Cancelar</i>',
-                cancelButtonAriaLabel: 'Thumbs down'
-            });
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/capasProveedoresGeneral</p>");
         }
     });
 }
@@ -1150,8 +1034,9 @@ function llenarTabla3(response)
             {data:"VtaProm$"},//4
             {data:"DiasInv"},//5
             {data:"Existencia"},//6
-            {data:"Cto_Prom"},//7
-            {data:"Valor"}//8
+            {data:"VtaMens"},//7
+            {data:"Cto_Prom"},//8
+            {data:"Valor"}//9
         ],
         language:
         {
@@ -1182,7 +1067,7 @@ function llenarTabla3(response)
                             colvis: "Visibilidad"
                         }
         },
-        scrollY:"285px",
+        scrollY:"270px",
         scrollX:true,
         paging:false,
         select:'single',
@@ -1205,12 +1090,12 @@ function llenarTabla3(response)
                 render: $.fn.dataTable.render.number( ',', '.', 2, '$' )
             },
             
-            { className: "dt-center", targets: [3,4,5,6,7,8] }
+            { className: "dt-center", targets: [3,4,5,6,7,8,9] }
         ],
         footerCallback: function ( row, data, start, end, display ) 
         {
             var api = this.api();
-            var nb_cols = 9;
+            var nb_cols = 10;
             var j = 3;
             while(j < nb_cols)
             {
@@ -1227,6 +1112,116 @@ function llenarTabla3(response)
     
    
 }
+
+function efectividadProveedoresGeneral(req)
+{
+    $.ajax({
+        type: 'GET',
+        url: getBaseURL()+"con_margutilprov/EfectividadProveedoresGeneral",
+        data:{proveedor:req.proveedor,periodo:req.periodo,ejercicio:req.ejercicio},
+        dataType: "json",
+        success: function(response)
+        {
+            llenarTabla4(response);
+        },
+        error: function (xhr, ajaxOptions, thrownError) 
+        {
+            console.log("Error: "+xhr.status+" "+thrownError+"   "+xhr.responseText+"<p>"+getBaseURL()+"con_margutilprov/EfectividadProveedoresGeneral</p>");
+        }
+    });
+}
+
+function llenarTabla4(response)
+{
+    tabla4 = $('#efectividad').DataTable( {
+        destroy: true,
+        colReorder: true,
+        data:response,
+        fixedHeader: true,
+        columns:
+        [
+            {data:"Suc"},//0 
+            {data:"Orden"},//1
+            {data:"Estatus"},//2
+            {data:"Fec_Pactada"},//3
+            {data:"Fec_Rec"},//4
+            {data:"Dias_Trans"},//5
+            {data:"U_Ped"},//6 ------------
+            {data:"U_Rec"},//7---------
+            {data:"Dif"},//8----------
+            {data:"EfectividadUNI"},//9
+            {data:"EfectividadDIAS"}//10
+        ],
+        language:
+        {
+            sProcessing:     "Procesando...",
+                        sLengthMenu:     "Mostrar _MENU_ registros",
+                        sZeroRecords:    "No se encontraron resultados",
+                        sEmptyTable:     "Ningún dato disponible en esta tabla",
+                        sInfo:           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        sInfoEmpty:      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        sInfoFiltered:   "(filtrado de un total de _MAX_ registros)",
+                        sInfoPostFix:    "",
+                        sSearch:         "Buscar:",
+                        sUrl:            "",
+                        sInfoThousands:  ",",
+                        sLoadingRecords: "Cargando...",
+                        oPaginate: {
+                            sFirst:    "Primero",
+                            sLast:     "Último",
+                            sNext:     "Siguiente",
+                            sPrevious: "Anterior"
+                        },
+                        oAria: {
+                            sSortAscending:  ": Activar para ordenar la columna de manera ascendente",
+                            sSortDescending: ": Activar para ordenar la columna de manera descendente"
+                        },
+                        buttons: {
+                            copy: "Copiar",
+                            colvis: "Visibilidad"
+                        }
+        },
+        scrollY:"270px",
+        scrollX:true,
+        paging:false,
+        select:'single',
+        searching: false,
+        columnDefs: [
+            {
+                targets: [10] ,
+                visible: false
+            },
+            {
+                targets: [6,7,8],
+                render: $.fn.dataTable.render.number( ',', '.', 1, '' )
+            },
+            {
+                targets: [9],
+                render: $.fn.dataTable.render.number( ',', '.', 1, '','%' ) 
+            },
+            { className: "dt-center", targets: [1,2,3,4,5,6,7,8,9] }
+        ],
+        footerCallback: function ( row, data, start, end, display ) 
+        {
+            var api = this.api();
+            var nb_cols = 9;
+            var j = 5;
+            while(j < nb_cols)
+            {
+                var pageTotal = api.column( j, { page: 'current'} ).data().reduce( function (a, b)
+                {
+                    return Number(a) + Number(b);
+                }, 0 );
+                // Update footer
+                $( api.column( j ).footer() ).html(pageTotal.toLocaleString(undefined, {maximumFractionDigits:2}));
+                j++;
+            }
+        }
+    } ).columns.adjust().draw();
+    
+   
+}
+
 
 function pestanaSuc()
 {

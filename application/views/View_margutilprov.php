@@ -15,16 +15,12 @@ $(document).ready(function()
 </script>
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
+    <ol class="breadcrumb" style="padding-right: 31px;padding-left: 31px;">
         <li id="pag1" class="breadcrumb-item active">Proveedores</li>
-        <li id="pag2" class="breadcrumb-item"><a href="#">Pagina 2</a></li>
+        <li id="pag2" class="breadcrumb-item"><a href="<?php echo base_url('Welcome'); ?>">Welcome</a></li>
         <li id="pag3" class="breadcrumb-item"><a href="#">Pagina 3</a></li>
     </ol>
 </nav>
-
-
-
-
 
 <div class="container-fluid">
     <div class="container-fluid">
@@ -137,9 +133,9 @@ $(document).ready(function()
                         
                </div>
            </div>
-
+            <br>
             
-            <br><br>
+            
             <div class="row" style=" height:460px;">
               
                 <div class="col-7 border-right border-bottom border-left border-default rounded-left">
@@ -166,10 +162,9 @@ $(document).ready(function()
                             }
                          ?>
                     </div>
-                    <br>
                     <hr>
                     <div class="table-responsive">
-                        <table id="example" class="display cell-border responsive stripe" width="100%" >
+                        <table id="example" class="display cell-border compact" width="100%" >
                                 <thead>
                                     <tr>
                                         <th>Num_prov</th>
@@ -208,6 +203,9 @@ $(document).ready(function()
                       </li>
                       <li class="nav-item" id="nav-capas-tab">
                         <a onclick="pestanaCap()" class="nav-link" id="pestaniaCapas-tab" data-toggle="tab" href="#pestaniaCapas" role="tab" aria-controls="pestaniaCapas" aria-selected="false">Capas</a>
+                      </li>
+                      <li class="nav-item" id="nav-capas-tab">
+                        <a onclick="" class="nav-link" id="pestaniaEfectividad-tab" data-toggle="tab" href="#pestaniaEfectividad" role="tab" aria-controls="pestaniaEfectividad" aria-selected="false">Efectividad</a>
                       </li>
                     </ul>
 
@@ -276,6 +274,7 @@ $(document).ready(function()
                                             <th>VtaProm$</th>
                                             <th>DiasInv</th>
                                             <th>Existencia</th>
+                                            <th>VtaMens</th>
                                             <th>Cto_Prom</th>
                                             <th>Valor</th>
                                         </tr>
@@ -285,6 +284,54 @@ $(document).ready(function()
                                     </tbody>
                                     <tfoot>
                                         <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                      </div>
+                      <div class="tab-pane" id="pestaniaEfectividad" role="tabpanel" aria-labelledby="pestaniaEfectividad-tab" >
+                            <br>
+                            <div class="row">
+                                <img id="imagenProv3" src="" class="rounded float-left " height="50px">
+                                <div class="spinner-border text-primary" id="spinner4"  role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <h5 style="color:blue;" id="tituloproveedor3"></h5>
+                            <div class="table-responsive">
+                                <table id="efectividad" class="display cell-border compact" width="100%" >
+                                    <thead>
+                                        <tr>
+                                            <th>Suc</th>
+                                            <th>Orden</th>
+                                            <th>Estatus</th>
+                                            <th>Fec_Pactada</th>
+                                            <th>Fec_Rec</th>
+                                            <th>Dias_Trans</th>
+                                            <th>U_Ped</th>
+                                            <th>U_Rec</th>
+                                            <th>Dif</th>
+                                            <th>EfectividadUNI</th>
+                                            <th>EfectividadDIAS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>

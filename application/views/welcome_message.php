@@ -67,7 +67,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb" style="padding-right: 31px;padding-left: 31px;">
+        <li id="pag1" class="breadcrumb-item"><a href="<?php echo base_url('Con_margutilprov'); ?>">Proveedores</a></li>
+        <li id="pag2" class="breadcrumb-item active">Welcome</li>
+        <li id="pag3" class="breadcrumb-item"><a href="#">Pagina 3</a></li>
+    </ol>
+</nav>
+
 <div id="container">
+
+
 	<h1>Welcome to CodeIgniter!</h1>
 
 	<div id="body">

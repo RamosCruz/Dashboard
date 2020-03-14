@@ -483,8 +483,39 @@ html{
 
 #capas th, td { white-space: nowrap; }
     
-    
+ #capas thead th{
+    padding: auto; 
+}     
+#capas tbody tr{
+    cursor: pointer;
+    padding:0px; 
+    height:15px;
+    width:auto;
+}
+#capas tbody td{
+    padding:0px; 
+    height:15px;
+    width:auto;
+}   
 
+    
+#efectividad thead th{
+    padding: auto; 
+}     
+#efectividad tbody tr{
+    cursor: pointer;
+    padding:0px; 
+    height:15px;
+    width:auto;
+}
+#efectividad tbody td{
+    padding:0px; 
+    height:15px;
+    width:auto;
+}   
+    
+    
+    
     
 table{
     font-size: 10px;
