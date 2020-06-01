@@ -29,50 +29,50 @@ $(document).ready(function()
                    <div class="form-group col-sm-2">
                        <img src="<?php echo base_url('assets/img/logo.png'); ?>" class="rounded" width="80px">
                    </div>
-                   <div class="form-group col-sm-3">
-                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                   <div class="form-group col-sm-2">
+                    <div class="btn-toolbar " role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group-sm btn-group-vertical btn-group-toggle " role="group" aria-label="First group">
                             <label id="label01" class="btn btn-outline-info">
-                                <input type="radio" value="01" name="periodo"> ENERO
+                                <input type="radio" value="01" name="periodo"> ENE
                             </label>
                             <label id="label05" class="btn btn-outline-info ">
-                                <input type="radio" value="05" name="periodo"> MARZO
+                                <input type="radio" value="05" name="periodo"> MAY
                             </label>
                             <label id="label09" class="btn btn-outline-info">
-                                <input type="radio" value="09" name="periodo"> SEPTIEMBRE
+                                <input type="radio" value="09" name="periodo"> SEP
                             </label>
                         </div>
                         <div class="btn-group-sm btn-group-vertical btn-group-toggle" role="group" aria-label="Second group">
                             <label id="label02" class="btn btn-outline-info ">
-                                <input type="radio" value="02" name="periodo"> FEBRERO
+                                <input type="radio" value="02" name="periodo"> FEB
                             </label>
                             <label id="label06" class="btn btn-outline-info ">
-                                <input type="radio" value="06" name="periodo"> JUNIO
+                                <input type="radio" value="06" name="periodo"> JUN
                             </label>
                             <label id="label10" class="btn btn-outline-info ">
-                                <input type="radio" value="10" name="periodo"> OCTUBRE
+                                <input type="radio" value="10" name="periodo"> OCT
                             </label>
                         </div>
                         <div class="btn-group-sm btn-group-vertical btn-group-toggle" role="group" aria-label="Third group">
                             <label id="label03" class="btn btn-outline-info ">
-                                <input type="radio" value="03" name="periodo"> MARZO
+                                <input type="radio" value="03" name="periodo"> MAR
                             </label>
                             <label id="label07" class="btn btn-outline-info ">
-                                <input type="radio" value="07" name="periodo"> JULIO
+                                <input type="radio" value="07" name="periodo"> JUL
                             </label>
                             <label id="label11" class="btn btn-outline-info ">
-                                <input type="radio" value="11" name="periodo"> NOVIEMBRE
+                                <input type="radio" value="11" name="periodo"> NOV
                             </label>
                         </div>
                         <div class="btn-group-sm btn-group-vertical btn-group-toggle" role="group" aria-label="Fourth group">
                             <label id="label04" class="btn btn-outline-info ">
-                                <input type="radio" value="04" name="periodo"> ABRIL
+                                <input type="radio" value="04" name="periodo"> ABR
                             </label>
                             <label id="label08" class="btn btn-outline-info ">
-                                <input type="radio" value="08" name="periodo"> AGOSTO
+                                <input type="radio" value="08" name="periodo"> AGO
                             </label>
                             <label id="label12" class="btn btn-outline-info ">
-                                <input type="radio" value="12" name="periodo"> DICIEMBRE
+                                <input type="radio" value="12" name="periodo"> DIC
                             </label>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ $(document).ready(function()
                     </div-->
                     <div class="form-group col-sm-2">
 
-                        <button id="consultar" class="btn btn-info mb-2">Consultar</button>
+                        <button id="consultar" class="btn btn-info mb-2 float-left">Consultar</button>
                     </div>
                     <div class="form-group col-sm-2">
                         <div class="spinner-border text-primary" id="spinner"  role="status">

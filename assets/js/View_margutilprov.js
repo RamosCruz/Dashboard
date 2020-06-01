@@ -170,7 +170,8 @@ function getMargenGeneral(url, periodoyano, req_type)
             if(response==false)
             {
                 console.log(response);
-                console.log('No hay datos getMargenGeneral!');
+                document.getElementById('spinner').style.display = "none";
+                swal.fire('No hay datos MargenGeneral!');
             }
             else
             { 
@@ -620,6 +621,7 @@ function queryVerValorInventario(getMargenGeneral,periodoyano)
             else
             { 
                 console.log('No hay datos queryVerValorInventario!');
+                agregarDias(getMargenGeneral,periodoyano);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) 
@@ -637,35 +639,38 @@ function agregarDias(general,periodoyano)
     for(var j=0;j<general.length;j++)
     {
         
-        var valorInventario=0;
-        var promV=0
-        pivote=parseInt(general[j].Num_prov);
-        for(var i=0;i<inventarioProm.length;i++)
+        if(inventarioProm!=null)
         {
-            if(pivote==parseInt(inventarioProm[i].cve_pro))
+            var valorInventario=0;
+            var promV=0
+            pivote=parseInt(general[j].Num_prov);
+            for(var i=0;i<inventarioProm.length;i++)
             {
-                valorInventario=valorInventario+parseFloat(inventarioProm[i].ValorPROM);
-                
+                if(pivote==parseInt(inventarioProm[i].cve_pro))
+                {
+                    valorInventario=valorInventario+parseFloat(inventarioProm[i].ValorPROM);
+
+                }
+
+            }
+
+
+            for(var k = 0;k<promediodeVentasGeneral.length;k++){
+                if(pivote==parseInt(promediodeVentasGeneral[k].Num_prov))
+                {
+                    promV=promediodeVentasGeneral[k].PromedioVenta;
+                }
             }
             
-        }
-        
-        
-        for(var k = 0;k<promediodeVentasGeneral.length;k++){
-            if(pivote==parseInt(promediodeVentasGeneral[k].Num_prov))
+            general[j].DiasInv = 30.4*(valorInventario/promV);
+            if(!isFinite(general[j].DiasInv))
             {
-                promV=promediodeVentasGeneral[k].PromedioVenta;
+                general[j].DiasInv=0;
             }
-        }
-        
-        
-        
-        general[j].DiasInv = 30.4*(valorInventario/promV);
-        if(!isFinite(general[j].DiasInv))
+        }else
         {
-            general[j].DiasInv=0;
+            general[j].DiasInv='Sin datos';
         }
-        
         
     }
     llenarTabla1(general,periodoyano);

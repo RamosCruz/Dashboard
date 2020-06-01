@@ -435,7 +435,7 @@ table.dataTable td {
         
     </style>
 </head>
-<body>
+<body style="background: #F5F5F5;">
     
    
     <?php 
